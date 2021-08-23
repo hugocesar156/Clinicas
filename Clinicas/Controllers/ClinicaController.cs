@@ -44,5 +44,10 @@ namespace Clinicas.Controllers
         {
             return View(new Clinica());
         }
+
+        public IActionResult Lista()
+        {
+            return View();
+        }
     }
 }
