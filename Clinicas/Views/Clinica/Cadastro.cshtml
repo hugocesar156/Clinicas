@@ -1,0 +1,141 @@
+﻿@model Clinicas.Models.Clinica.Clinica
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<div id="formulario-cadastro">
+    <div class="row text-center">
+        <div class="col">
+            <h4>Registro de clínica</h4>
+        </div>
+    </div>
+    <form asp-action="RegistrarClinica" data-ajax="true" data-ajax-method="post" data-ajax-begin="$('#area-submit').remove()" 
+          data-ajax-loading="#area-carregamento" data-ajax-update="#div-container">
+        @Html.AntiForgeryToken()
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div>
+                    <h5>Clínica</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-3">
+                <label for="cnpj">CNPJ</label>
+                <input asp-for="Cnpj" type="text" id="cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" required />
+                <span asp-validation-for="Cnpj" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label for="razao-social">Razão social</label>
+                <input asp-for="RazaoSocial" type="text" id="razao-social" class="form-control" required maxlength="45" />
+                <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-5">
+                <label for="nome-fantasia">Nome fantasia</label>
+                <input asp-for="NomeFantasia" type="text" id="nome-fantasia" class="form-control" required maxlength="45" />
+                <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label for="site">Site</label>
+                <input asp-for="Site" type="text" id="site" class="form-control" placeholder="www.meusite.com.br" maxlength="45" />
+                <span asp-validation-for="Site" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div class="mt-4">
+                    <h5>Endereço</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-3">
+                <label for="cep">CEP</label>
+                <input asp-for="Endereco[0].Cep" type="text" id="cep" class="form-control cep" placeholder="00000-000"
+                       required minlength="9" onkeyup="BuscarEndereco($(this).val())" />
+                <span asp-validation-for="Endereco[0].Cep" class="text-danger"></span>
+            </div>
+            <div class="col-4">
+                <label for="logradouro">Logradouro</label>
+                <input asp-for="Endereco[0].Logradouro" type="text" id="logradouro" class="form-control" required maxlength="45" />
+                <span asp-validation-for="Endereco[0].Logradouro" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label for="numero-endereco">Número</label>
+                <input asp-for="Endereco[0].Numero" type="text" id="numero-endereco" class="form-control" placeholder="000" required maxlength="5" />
+                <span asp-validation-for="Endereco[0].Numero" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-3 justify-content-center">
+            <div class="col-3">
+                <label for="bairro">Bairro</label>
+                <input asp-for="Endereco[0].Bairro" type="text" id="bairro" class="form-control" required maxlength="45" />
+                <span asp-validation-for="Endereco[0].Bairro" class="text-danger"></span>
+            </div>
+            <div class="col-3">
+                <label for="cidade">Cidade</label>
+                <input asp-for="Endereco[0].Cidade" type="text" id="cidade" class="form-control" required maxlength="45" />
+                <span asp-validation-for="Endereco[0].Cidade" class="text-danger"></span>
+            </div>
+            <div class="col-3">
+                <label for="uf">Estado</label>
+                <select asp-for="Endereco[0].Uf" id="uf" class="form-control campo-form" required>
+                    <option value="" selected disabled hidden>Selecionar estado</option>
+
+                    @foreach (var estado in Clinicas.Models.Shared.Endereco.ListarEstados())
+                    {
+                        <option value="@estado.Key">@estado.Value</option>
+                    }
+
+                </select>
+                <span asp-validation-for="Endereco[0].Uf" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mt-3 justify-content-center">
+            <div class="col-9">
+                <label for="complemento">Complemento</label>
+                <input asp-for="Endereco[0].Complemento" type="text" id="complemento" class="form-control" maxlength="45" />
+                <span asp-validation-for="Endereco[0].Complemento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div class="mt-4">
+                    <h5>Contato</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="col-9">
+                <label for="numero-contato">Número</label>
+                <input asp-for="Contato[0].Numero" type="text" id="numero-contato" class="form-control celular" required placeholder="00 00000-0000" />
+                <span asp-validation-for="Contato[0].Numero" class="text-danger"></span>
+            </div>
+        </div>
+
+        @if (ViewBag.Notificacao != null)
+        {
+            @await Html.PartialAsync("Notificacao");
+        }
+
+        <div id="area-submit" class="row mt-4 justify-content-center">
+            <button class="col-4 btn btn-success" type="submit">Finalizar cadastro</button>
+        </div>
+        <div id="area-carregamento" class="row mt-3 justify-content-center" style="display: none">
+            <button class="col-4 btn btn-success" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Carregando
+            </button>
+        </div>
+        <div class="row mt-3 justify-content-center">
+            <button class="col-4 btn btn-danger" type="button">Cancelar</button>
+        </div>
+    </form>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
+<script src="~/js/Shared/global.js"></script>

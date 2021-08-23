@@ -1,0 +1,11 @@
+﻿<div class="row mt-4 justify-content-center">
+    <div class="col-9">
+        <div class="alert @ViewBag.Notificacao.Alerta alert-dismissible fade show" role="alert">
+            <i class="bi @ViewBag.Notificacao.Icone"></i>
+            <strong>@ViewBag.Notificacao.Titulo</strong>@ViewBag.Notificacao.Descricao
+            <button type="button" id="fechar-notificacao" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Notificacao/notificacao.js"></script>
