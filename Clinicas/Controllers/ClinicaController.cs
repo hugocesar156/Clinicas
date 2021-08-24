@@ -14,6 +14,13 @@ namespace Clinicas.Controllers
             _clinicaDb = clinicaDb;
         }
 
+        [HttpGet]
+        public PartialViewResult AtualizarLista(int pagina, string pesquisa = "")
+        {
+            return PartialView("Tabela", 
+                _clinicaDb.Listar(pagina, pesquisa != null ? pesquisa?.ToUpper().Trim() : string.Empty));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult RegistrarClinica(Clinica clinica)
@@ -47,7 +54,7 @@ namespace Clinicas.Controllers
 
         public IActionResult Lista()
         {
-            return View();
+            return View(_clinicaDb.Listar());
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿@model IPagedList<Clinicas.Models.Clinica.Clinica>
+
+@{
+    ViewData["Title"] = "Lista de clínicas";
+}
+
+<div class="row text-center">
+    <div class="col">
+        <h4>Clínicas registradas</h4>
+    </div>
+</div>
+
+@if (Model.PageCount > 0)
+{
+    <form asp-action="AtualizarLista" id="formulario-busca" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+        <div class="row justify-content-center mt-3">
+            <div class="col-8"></div>
+            <div class="col-2">
+                <input class="form-control form-control-sm float-end" type="text" name="pesquisa" 
+                       placeholder="Buscar" onkeyup="$('#formulario-busca').submit()" />
+            </div>
+        </div>
+        <input type="hidden" name="pagina" value="@Model.PageNumber" />
+    </form>
+}
+
+<div id="area-tabela">
+    @await Html.PartialAsync("Tabela", Model) 
+</div>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
+<script src="~/js/Shared/global.js"></script>

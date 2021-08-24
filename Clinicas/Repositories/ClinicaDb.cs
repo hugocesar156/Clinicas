@@ -1,7 +1,10 @@
 ﻿using Clinicas.Data;
 using Clinicas.Models.Clinica;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using X.PagedList;
 
 namespace Clinicas.Repositories
 {
@@ -30,6 +33,22 @@ namespace Clinicas.Repositories
             {
                 _banco.Add(clinica);
                 return _banco.SaveChanges() > 0;
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro);
+                throw new Exception();
+            }
+        }
+
+        public IPagedList<Clinica> Listar(int pagina = 1, string pesquisa = "")
+        {
+            try
+            {
+                return _banco.Clinica.Include(c => c.Endereco).Include(c => c.Contato)
+                         .Where(c => c.RazaoSocial.Contains(pesquisa) ||
+                         c.NomeFantasia.Contains(pesquisa) ||
+                         c.Cnpj.Contains(pesquisa)).OrderBy(c => c.RazaoSocial).ToPagedList(pagina, 10);
             }
             catch (Exception erro)
             {

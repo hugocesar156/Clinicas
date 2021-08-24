@@ -1,0 +1,95 @@
+﻿@model IPagedList<Clinicas.Models.Clinica.Clinica>
+
+<div class="row justify-content-center mt-2">
+    <div class="col-10" style="overflow: auto; height: @(Model.Count >= 5 ? "500px" : "250px");">
+        <table data-spy="scroll" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Razão Social</th>
+                    <th scope="col">CNPJ</th>
+                    <th scope="col">Nome fantasia</th>
+                    <th scope="col">Site</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var clinica in Model)
+                {
+                    <tr>
+                        <td class="text-capitalize">@clinica.RazaoSocial.ToLower()</td>
+                        <td class="cnpj">@clinica.Cnpj</td>
+                        <td class="text-capitalize">@clinica.NomeFantasia.ToLower()</td>
+                        <td class="text-lowercase">@clinica.Site</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" title="Detalhes do registro"><i class="bi bi-card-heading"></i></button>
+                            <button class="btn btn-sm btn-outline-primary" title="Editar registro"><i class="bi bi-pencil-fill"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" title="Remover registro"><i class="bi bi-trash-fill"></i></button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-9">
+        <label class="form-control-sm">
+            Exibindo @Model.Count de @Model.TotalItemCount registro(s)
+        </label>
+    </div>
+    <div class="col-1">
+        <label class="form-control-sm">
+            Página @Model.PageNumber
+        </label>
+    </div>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <div class="row justify-content-center mt-3">
+        <div class="col-10">
+            <nav aria-label="..." class="float-end">
+                <ul class="pagination">
+                    <li class="page-item" title="Primeira página">
+                        <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                            <button class="page-link" href="#"><i class="bi bi-arrow-left"></i></button>
+                            <input type="hidden" name="pagina" value="1" />
+                        </form>
+                    </li>
+
+                    @if (Model.PageNumber > 1)
+                    {
+                        <li class="page-item" title="Página anterior">
+                            <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                                <button class="page-link" href="#"><i class="bi bi-arrow-bar-left"></i></button>
+                                <input type="hidden" name="pagina" value="@(Model.PageNumber - 1)" />
+                            </form>
+                        </li>
+                    }
+
+                    @if (Model.PageNumber < Model.PageCount)
+                    {
+                        <li class="page-item" title="Próxima página">
+                            <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                                <button class="page-link" href="#"><i class="bi bi-arrow-bar-right"></i></button>
+                                <input type="hidden" name="pagina" value="@(Model.PageNumber + 1)" />
+                            </form>
+                        </li>
+                    }
+
+                    <li class="page-item" title="Última página">
+                        <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                            <button class="page-link" href="#"><i class="bi bi-arrow-right"></i></button>
+                            <input type="hidden" name="pagina" value="@Model.PageCount" />
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+}
+
+<script src="~/js/Shared/global.js"></script>
