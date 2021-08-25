@@ -21,6 +21,12 @@ namespace Clinicas.Controllers
                 _clinicaDb.Listar(pagina, pesquisa != null ? pesquisa?.ToUpper().Trim() : string.Empty));
         }
 
+        [HttpGet]
+        public PartialViewResult Detalhamento(uint idClinica)
+        {
+            return PartialView("Detalhamento", _clinicaDb.Buscar(idClinica));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public PartialViewResult RegistrarClinica(Clinica clinica)

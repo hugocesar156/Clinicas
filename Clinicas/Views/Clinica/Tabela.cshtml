@@ -22,7 +22,12 @@
                         <td class="text-capitalize">@clinica.NomeFantasia.ToLower()</td>
                         <td class="text-lowercase">@clinica.Site</td>
                         <td>
-                            <button class="btn btn-sm btn-outline-primary" title="Detalhes do registro"><i class="bi bi-card-heading"></i></button>
+                            <a class="btn btn-sm btn-outline-primary" title="Detalhes do registro"
+                               href="@Url.Action("Detalhamento", "Clinica", new { idClinica = clinica.IdClinica })"
+                               data-ajax="true" data-ajax-method="get" data-ajax-update="#area-modal-detalhamento"
+                               data-ajax-complete="$('#modal-detalhamento').modal('show')">
+                                <i class="bi bi-card-heading"></i>
+                            </a>
                             <button class="btn btn-sm btn-outline-primary" title="Editar registro"><i class="bi bi-pencil-fill"></i></button>
                             <button class="btn btn-sm btn-outline-danger" title="Remover registro"><i class="bi bi-trash-fill"></i></button>
                         </td>
@@ -55,7 +60,7 @@
                 <ul class="pagination">
                     <li class="page-item" title="Primeira página">
                         <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
-                            <button class="page-link" href="#"><i class="bi bi-arrow-left"></i></button>
+                            <button class="page-link"><i class="bi bi-arrow-left"></i></button>
                             <input type="hidden" name="pagina" value="1" />
                         </form>
                     </li>
@@ -64,7 +69,7 @@
                     {
                         <li class="page-item" title="Página anterior">
                             <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
-                                <button class="page-link" href="#"><i class="bi bi-arrow-bar-left"></i></button>
+                                <button class="page-link"><i class="bi bi-arrow-bar-left"></i></button>
                                 <input type="hidden" name="pagina" value="@(Model.PageNumber - 1)" />
                             </form>
                         </li>
@@ -74,7 +79,7 @@
                     {
                         <li class="page-item" title="Próxima página">
                             <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
-                                <button class="page-link" href="#"><i class="bi bi-arrow-bar-right"></i></button>
+                                <button class="page-link"><i class="bi bi-arrow-bar-right"></i></button>
                                 <input type="hidden" name="pagina" value="@(Model.PageNumber + 1)" />
                             </form>
                         </li>
@@ -82,7 +87,7 @@
 
                     <li class="page-item" title="Última página">
                         <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
-                            <button class="page-link" href="#"><i class="bi bi-arrow-right"></i></button>
+                            <button class="page-link"><i class="bi bi-arrow-right"></i></button>
                             <input type="hidden" name="pagina" value="@Model.PageCount" />
                         </form>
                     </li>
@@ -92,4 +97,6 @@
     </div>
 }
 
-<script src="~/js/Shared/global.js"></script>
+<div id="area-modal-detalhamento">
+    @await Html.PartialAsync("Detalhamento", new Clinicas.Models.Clinica.Clinica())
+</div>

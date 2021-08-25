@@ -9,12 +9,6 @@ namespace Clinicas.Models.Clinica
     [Table("clinica")]
     public class Clinica
     {
-        public Clinica()
-        {
-            Endereco = new List<EnderecoClinica> { new EnderecoClinica() };
-            Contato = new List<ContatoClinica> { new ContatoClinica() };
-        }
-
         private string _cnpj;
         private string _razaoSocial;
         private string _nomeFantasia;

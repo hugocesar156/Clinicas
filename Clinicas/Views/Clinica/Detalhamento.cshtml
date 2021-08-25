@@ -1,0 +1,108 @@
+﻿@model Clinicas.Models.Clinica.Clinica
+
+<div class="modal fade" id="modal-detalhamento" tabindex="-1" aria-labelledby="detalhamento" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes do registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-8">
+                        <h6>Clínica</h6>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>CNPJ: </strong>
+                                <label class="cnpj">@Model.Cnpj</label>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Razão Social: </strong>
+                                <label class="text-capitalize">@Model.RazaoSocial?.ToLower()</label>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Nome fantasia: </strong>
+                                <label class="text-capitalize">@Model.NomeFantasia?.ToLower()</label>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Site: </strong>
+                                <label>@Model.Site?.ToLower()</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-8">
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <h6>Endereços</h6>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-sm btn-outline-primary float-end">Novo endereço</button>
+                            </div>
+                        </div>
+
+                        @foreach (var endereco in Model.Endereco ?? new List<Clinicas.Models.Clinica.EnderecoClinica>())
+                        {
+                            <ul class="list-group list-group-flush py-0">
+                                <li class="list-group-item">
+                                    <div>
+                                        <label class="text-capitalize">@endereco.Logradouro?.ToLower() - @endereco.Numero, @endereco.Bairro?.ToLower()</label>
+                                    </div>
+                                    <div>
+                                        <label class="text-capitalize">@endereco.Cidade?.ToLower() - @endereco.Uf, <label class="cep">@endereco.Cep</label></label>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-1">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-fill"></i></button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+
+                        <hr />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-8">
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <h6>Contatos</h6>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-sm btn-outline-primary float-end">Novo contato</button>
+                            </div>
+                        </div>
+
+                        @foreach (var contato in Model.Contato ?? new List<Clinicas.Models.Clinica.ContatoClinica>())
+                        {
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <label class="celular">@contato.Numero</label>
+                                    <div class="row mt-1">
+                                        <div class="col-1">
+                                            <button class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-fill"></i></button>
+                                        </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Voltar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Shared/global.js"></script>

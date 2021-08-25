@@ -1,7 +1,11 @@
-﻿@model Clinicas.Models.Clinica.Clinica
+﻿@using Clinicas.Models.Clinica
+@model Clinica
 
 @{
     ViewData["Title"] = "Cadastro de clínica";
+
+    Model.Endereco = new List<EnderecoClinica> { new EnderecoClinica() };
+    Model.Contato = new List<ContatoClinica> { new ContatoClinica() };
 }
 
 <div class="row text-center">
