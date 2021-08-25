@@ -39,14 +39,12 @@ namespace Clinicas.Controllers
             if (!_clinicaDb.ValidarCnpj(clinica.Cnpj, clinica.IdClinica))
                 ViewBag.Notificacao =
                      Notificacao.GerarNotificacao(Notificacao.Mensagem.CnpjInvalido);
-
-            else if (_clinicaDb.Atualizar(clinica))
-                ViewBag.Notificacao =
-                     Notificacao.GerarNotificacao(Notificacao.Mensagem.EdicaoRealizada);
-
             else
-                ViewBag.Notificacao =
-                      Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
+            {
+                ViewBag.Notificacao = _clinicaDb.Atualizar(clinica) ?
+                    Notificacao.GerarNotificacao(Notificacao.Mensagem.EdicaoRealizada) :
+                    Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
+            }
 
             return PartialView("Edicao", clinica);
         }
@@ -64,14 +62,14 @@ namespace Clinicas.Controllers
 
             else if (_clinicaDb.Registrar(clinica))
             {
-                ViewBag.Notificacao = 
+                ViewBag.Notificacao =
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.CadastroRealizado);
 
                 ModelState.Clear();
                 return PartialView("Cadastro", new Clinica());
             }
             else
-                ViewBag.Notificacao = 
+                ViewBag.Notificacao =
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaCadastro);
 
             return PartialView("Cadastro", clinica);
