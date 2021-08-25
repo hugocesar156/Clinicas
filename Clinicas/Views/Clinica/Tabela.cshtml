@@ -28,7 +28,10 @@
                                data-ajax-complete="$('#modal-detalhamento').modal('show')">
                                 <i class="bi bi-card-heading"></i>
                             </a>
-                            <button class="btn btn-sm btn-outline-primary" title="Editar registro"><i class="bi bi-pencil-fill"></i></button>
+                            <a class="btn btn-sm btn-outline-primary" title="Editar registro" 
+                               href="@Url.Action("Edicao", "Clinica", new { idClinica = clinica.IdClinica })">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
                             <button class="btn btn-sm btn-outline-danger" title="Remover registro"><i class="bi bi-trash-fill"></i></button>
                         </td>
                     </tr>

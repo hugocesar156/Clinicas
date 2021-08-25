@@ -28,6 +28,8 @@ namespace Clinicas.Models.Shared
             //Plataforma
             CadastroRealizado,
             FalhaCadastro,
+            EdicaoRealizada,
+            FalhaEdicao,
 
             //Clínica
             CnpjInvalido
@@ -39,6 +41,8 @@ namespace Clinicas.Models.Shared
             //Plataforma
             {Mensagem.CadastroRealizado, (Tipo.Sucesso, "Cadastro realizado com sucesso")},
             {Mensagem.FalhaCadastro, (Tipo.Falha, "Ocorreu uma falha durante o cadastro, tente novamenete.")},
+            {Mensagem.EdicaoRealizada, (Tipo.Sucesso, "Registro editado com sucesso.")},
+            {Mensagem.FalhaEdicao, (Tipo.Falha, "Ocorreu uma falha ao editar registro, tente novamenete")},
 
             //Clínica
             {Mensagem.CnpjInvalido, (Tipo.Falha, "CNPJ informado já registrado no sistema.")}

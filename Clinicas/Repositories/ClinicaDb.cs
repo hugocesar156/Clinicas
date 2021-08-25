@@ -14,6 +14,20 @@ namespace Clinicas.Repositories
 
         public ClinicaDb(DatabaseContext banco) => _banco = banco;
 
+        public bool Atualizar(Clinica clinica)
+        {
+            try
+            {
+                _banco.Update(clinica);
+                return _banco.SaveChanges() > 0;
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro);
+                throw new Exception();
+            }
+        }
+
         public Clinica Buscar(uint idClincia)
         {
             try
@@ -28,11 +42,17 @@ namespace Clinicas.Repositories
             }
         }
 
-        public Clinica Buscar(string cnpj)
+        public bool ValidarCnpj(string cnpj, uint idClinica = 0)
         {
             try
             {
-                return _banco.Clinica.FirstOrDefault(c => c.Cnpj == cnpj);
+                if (idClinica > 0)
+                {
+                    return _banco.Clinica.FirstOrDefault(c => 
+                    c.IdClinica != idClinica && c.Cnpj == cnpj) == null;
+                }
+
+                return _banco.Clinica.FirstOrDefault(c => c.Cnpj == cnpj) == null;
             }
             catch (Exception erro)
             {

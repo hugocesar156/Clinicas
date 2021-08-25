@@ -29,12 +29,36 @@ namespace Clinicas.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public PartialViewResult EditarClinica(Clinica clinica)
+        {
+            if (!ModelState.IsValid)
+                return PartialView("Edicao", clinica);
+
+            clinica.IdClinica = uint.Parse(TempData["idClinica"].ToString());
+       
+            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj, clinica.IdClinica))
+                ViewBag.Notificacao =
+                     Notificacao.GerarNotificacao(Notificacao.Mensagem.CnpjInvalido);
+
+            else if (_clinicaDb.Atualizar(clinica))
+                ViewBag.Notificacao =
+                     Notificacao.GerarNotificacao(Notificacao.Mensagem.EdicaoRealizada);
+
+            else
+                ViewBag.Notificacao =
+                      Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
+
+            return PartialView("Edicao", clinica);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public PartialViewResult RegistrarClinica(Clinica clinica)
         {
             if (!ModelState.IsValid)
                 return PartialView("Cadastro", clinica);
 
-            if (_clinicaDb.Buscar(clinica.Cnpj) != null)
+            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj))
                 ViewBag.Notificacao = 
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.CnpjInvalido);
 
@@ -58,6 +82,14 @@ namespace Clinicas.Controllers
             return View(new Clinica());
         }
 
+        [HttpGet]
+        public IActionResult Edicao(uint idClinica)
+        {
+            TempData["IdClinica"] = idClinica;
+            return View(_clinicaDb.Buscar(idClinica));
+        }
+
+        [HttpGet]
         public IActionResult Lista()
         {
             return View(_clinicaDb.Listar());

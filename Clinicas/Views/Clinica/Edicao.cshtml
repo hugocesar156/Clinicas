@@ -1,0 +1,68 @@
+﻿@model Clinicas.Models.Clinica.Clinica
+
+@{
+    ViewData["Title"] = "Edição de clínica";
+}
+
+<div class="row text-center">
+    <div class="col">
+        <h4>Edição de clínica</h4>
+    </div>
+</div>
+<form asp-action="EditarClinica" data-ajax="true" data-ajax-method="post" data-ajax-begin="$('#area-submit').remove()"
+      data-ajax-loading="#area-carregamento" data-ajax-update="#div-container">
+    @Html.AntiForgeryToken()
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div>
+                <h5>Clínica</h5>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 justify-content-center">
+        <div class="col-3">
+            <label for="cnpj">CNPJ</label>
+            <input asp-for="Cnpj" type="text" id="cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" required />
+            <span asp-validation-for="Cnpj" class="text-danger"></span>
+        </div>
+        <div class="col-6">
+            <label for="razao-social">Razão social</label>
+            <input asp-for="RazaoSocial" type="text" id="razao-social" class="form-control" required maxlength="45" />
+            <span asp-validation-for="RazaoSocial" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center">
+        <div class="col-5">
+            <label for="nome-fantasia">Nome fantasia</label>
+            <input asp-for="NomeFantasia" type="text" id="nome-fantasia" class="form-control" required maxlength="45" />
+            <span asp-validation-for="NomeFantasia" class="text-danger"></span>
+        </div>
+        <div class="col-4">
+            <label for="site">Site</label>
+            <input asp-for="Site" type="text" id="site" class="form-control" placeholder="www.meusite.com.br" maxlength="45" />
+            <span asp-validation-for="Site" class="text-danger"></span>
+        </div>
+    </div>
+
+    @if (ViewBag.Notificacao != null)
+    {
+        @await Html.PartialAsync("Notificacao");
+    }
+
+    <div id="area-submit" class="row mt-4 justify-content-center">
+        <button class="col-4 btn btn-success" type="submit">Salvar alterações</button>
+    </div>
+    <div id="area-carregamento" class="row mt-3 justify-content-center" style="display: none">
+        <button class="col-4 btn btn-success" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Carregando
+        </button>
+    </div>
+    <div class="row mt-3 justify-content-center">
+        <a class="col-4 btn btn-danger" href="@Url.Action("Lista", "Clinica")">Voltar</a>
+    </div>
+</form>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
+<script src="~/js/Shared/global.js"></script>
