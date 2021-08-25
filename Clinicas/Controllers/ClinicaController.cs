@@ -77,6 +77,17 @@ namespace Clinicas.Controllers
             return PartialView("Cadastro", clinica);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public PartialViewResult RemoverClinica(uint idClinica)
+        {
+            ViewBag.Notificacao = _clinicaDb.Deletar(idClinica) ?
+                  Notificacao.GerarNotificacao(Notificacao.Mensagem.RegistroRemovido) :
+                  Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaRemocao);
+
+            return PartialView("Lista", _clinicaDb.Listar());
+        }
+
         public IActionResult Cadastro()
         {
             return View(new Clinica());

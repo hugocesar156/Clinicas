@@ -1,5 +1,17 @@
 ﻿@model IPagedList<Clinicas.Models.Clinica.Clinica>
 
+@if (ViewBag.Notificacao != null)
+{
+    @await Html.PartialAsync("Notificacao");
+}
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <div id="area-carregamento" style="display: none;">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </div>
+    </div>
+</div>
 <div class="row justify-content-center mt-2">
     <div class="col-10" style="overflow: auto; height: @(Model.Count >= 5 ? "500px" : "250px");">
         <table data-spy="scroll" class="table">
@@ -28,11 +40,16 @@
                                data-ajax-complete="$('#modal-detalhamento').modal('show')">
                                 <i class="bi bi-card-heading"></i>
                             </a>
-                            <a class="btn btn-sm btn-outline-primary" title="Editar registro" 
+                            <a class="btn btn-sm btn-outline-primary" title="Editar registro"
                                href="@Url.Action("Edicao", "Clinica", new { idClinica = clinica.IdClinica })">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
-                            <button class="btn btn-sm btn-outline-danger" title="Remover registro"><i class="bi bi-trash-fill"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" title="Remover registro"
+                                    data-bs-toggle="modal" data-bs-target="#modal-remocao"
+                                    onclick="$('#id-clinica-remocao').val('@clinica.IdClinica');
+                                             $('#confirmacao').html($('.cnpj').masked('@clinica.Cnpj'));">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -103,3 +120,29 @@
 <div id="area-modal-detalhamento">
     @await Html.PartialAsync("Detalhamento", new Clinicas.Models.Clinica.Clinica())
 </div>
+
+<div class="modal fade" id="modal-remocao" tabindex="-1" aria-labelledby="remocao" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remover registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="RemoverClinica" data-ajax="true" data-ajax-method="post" data-ajax-update="#div-container"
+                  data-ajax-begin="$('#area-submit').remove()" data-ajax-loading="#area-carregamento">
+                <input type="hidden" id="id-clinica-remocao" name="idClinica" />
+                <div class="modal-body">
+                    Tem certeza que deseja remover o seguinte registro?
+                    <strong id="confirmacao"></strong>
+                </div>
+                <div class="modal-footer">
+                    <div id="area-submit">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="$('#link-carregamento').click()">Confirmar</button>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<a id="link-carregamento" href="#row-titulo" class="d-none"></a>

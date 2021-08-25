@@ -42,6 +42,23 @@ namespace Clinicas.Repositories
             }
         }
 
+        public bool Deletar(uint idClinica)
+        {
+            try
+            {
+                _banco.RemoveRange(_banco.EnderecoClinica.Where(e => e.IdClinica == idClinica));
+                _banco.RemoveRange(_banco.ContatoClinica.Where(e => e.IdClinica == idClinica));
+                _banco.Remove(new Clinica { IdClinica = idClinica });
+
+                return _banco.SaveChanges() > 0;
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro);
+                throw new Exception();
+            }
+        }
+
         public bool ValidarCnpj(string cnpj, uint idClinica = 0)
         {
             try
