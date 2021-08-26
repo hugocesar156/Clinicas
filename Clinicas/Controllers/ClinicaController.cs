@@ -47,6 +47,7 @@ namespace Clinicas.Controllers
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
             }
 
+            TempData["idClinica"] = clinica.IdClinica;
             return PartialView("Edicao", clinica);
         }
 
@@ -95,7 +96,7 @@ namespace Clinicas.Controllers
         [HttpGet]
         public IActionResult Edicao(uint idClinica)
         {
-            TempData["IdClinica"] = idClinica;
+            TempData["idClinica"] = idClinica;
             return View(_clinicaDb.Buscar(idClinica));
         }
 
