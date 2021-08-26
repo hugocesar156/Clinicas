@@ -36,6 +36,7 @@ namespace Clinicas
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<ClinicaDb>();
+            services.AddScoped<FuncionarioDb>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -19,6 +19,7 @@ namespace Clinicas.Models.Clinica
 
         [Column("cnpj"),
         Required(ErrorMessage = ViewErro.CampoObrigatorio),
+        StringLength(14, ErrorMessage = ViewErro.CampoInvalido),
         CnpjValido(nameof(Cnpj))]
         public string Cnpj
         {

@@ -2,6 +2,7 @@
 using Clinicas.Models.Clinica;
 using Clinicas.Repositories;
 using Clinicas.Models.Shared;
+using System;
 
 namespace Clinicas.Controllers
 {
