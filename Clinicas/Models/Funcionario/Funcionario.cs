@@ -56,6 +56,11 @@ namespace Clinicas.Models.Funcionario
             }
         }
 
+        [ForeignKey("idUsuario")]
+        public uint IdUsuario { get; set; }
+
+        public Usuario.Usuario Usuario { get; set; }
+
         [ForeignKey("idClinica")]
         public uint IdClinica { get; set; }
 

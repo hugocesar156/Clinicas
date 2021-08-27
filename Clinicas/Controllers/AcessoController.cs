@@ -1,16 +1,17 @@
 ﻿using Clinicas.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Clinicas.Controllers
 {
     public class AcessoController : Controller
     {
         public IActionResult Entrada()
+        {
+            return View();
+        }
+
+        public IActionResult Opcoes()
         {
             return View();
         }
