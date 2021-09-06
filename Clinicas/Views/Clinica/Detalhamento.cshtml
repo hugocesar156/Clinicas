@@ -1,4 +1,5 @@
-﻿@model Clinicas.Models.Clinica.Clinica
+﻿@using Clinicas.Models.Clinica
+@model Clinica
 
 <div class="modal fade" id="modal-detalhamento" tabindex="-1" aria-labelledby="detalhamento" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -25,8 +26,16 @@
                                 <label class="text-capitalize">@Model.NomeFantasia?.ToLower()</label>
                             </li>
                             <li class="list-group-item">
+                                <strong>Data de fundação: </strong>
+                                <label>@Model.DataFundacao?.ToShortDateString()</label>
+                            </li>
+                            <li class="list-group-item">
                                 <strong>Site: </strong>
                                 <label>@Model.Site?.ToLower()</label>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Status: </strong>
+                                <label>@Clinica.ListarStatus().FirstOrDefault(s => s.Key == Model.IdStatus).Value</label>
                             </li>
                         </ul>
                     </div>
@@ -42,7 +51,7 @@
                             </div>
                         </div>
 
-                        @foreach (var endereco in Model.Endereco ?? new List<Clinicas.Models.Clinica.EnderecoClinica>())
+                        @foreach (var endereco in Model.Endereco ?? new List<EnderecoClinica>())
                         {
                             <ul class="list-group list-group-flush py-0">
                                 <li class="list-group-item">
@@ -78,7 +87,7 @@
                             </div>
                         </div>
 
-                        @foreach (var contato in Model.Contato ?? new List<Clinicas.Models.Clinica.ContatoClinica>())
+                        @foreach (var contato in Model.Contato ?? new List<ContatoClinica>())
                         {
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">

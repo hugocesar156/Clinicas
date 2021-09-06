@@ -40,16 +40,16 @@
             <span asp-validation-for="NomeFantasia" class="text-danger"></span>
         </div>
         <div class="col-3">
-            <label for="site">Site</label>
-            <input asp-for="Site" type="text" id="site" class="form-control" placeholder="www.meusite.com.br" maxlength="45" />
-            <span asp-validation-for="Site" class="text-danger"></span>
+            <label for="data-fundacao">Data de fundação</label>
+            <input asp-for="DataFundacao" type="date" id="data-fundacao" class="form-control" required />
+            <span asp-validation-for="DataFundacao" class="text-danger"></span>
         </div>
     </div>
     <div class="row mt-4 justify-content-center">
         <div class="col-5">
-            <label for="data-fundacao">Data de fundação</label>
-            <input asp-for="DataFundacao" type="date" id="data-fundacao" class="form-control" required  />
-            <span asp-validation-for="DataFundacao" class="text-danger"></span>
+            <label for="site">Site</label>
+            <input asp-for="Site" type="text" id="site" class="form-control" placeholder="www.meusite.com.br" maxlength="45" />
+            <span asp-validation-for="Site" class="text-danger"></span>
         </div>
         <div class="col-3">
             <label for="status">Status</label>

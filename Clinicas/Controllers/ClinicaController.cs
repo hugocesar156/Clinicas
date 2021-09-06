@@ -34,7 +34,7 @@ namespace Clinicas.Controllers
         {
             clinica.IdClinica = uint.Parse(TempData["idClinica"].ToString());
 
-            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj))
+            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj, clinica.IdClinica))
                 ModelState.AddModelError("Cnpj", ModelError.Clinica.CnpjInvalido);
 
             if (ModelState.IsValid)

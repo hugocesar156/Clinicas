@@ -13,7 +13,7 @@
       data-ajax-loading="#area-carregamento" data-ajax-update="#div-container">
     @Html.AntiForgeryToken()
     <div class="row justify-content-center">
-        <div class="col-9">
+        <div class="col-8">
             <div>
                 <h5>Clínica</h5>
             </div>
@@ -25,7 +25,7 @@
             <input asp-for="Cnpj" type="text" id="cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" required />
             <span asp-validation-for="Cnpj" class="text-danger"></span>
         </div>
-        <div class="col-6">
+        <div class="col-5">
             <label for="razao-social">Razão social</label>
             <input asp-for="RazaoSocial" type="text" id="razao-social" class="form-control" required maxlength="45" />
             <span asp-validation-for="RazaoSocial" class="text-danger"></span>
@@ -37,10 +37,30 @@
             <input asp-for="NomeFantasia" type="text" id="nome-fantasia" class="form-control" required maxlength="45" />
             <span asp-validation-for="NomeFantasia" class="text-danger"></span>
         </div>
-        <div class="col-4">
+        <div class="col-3">
+            <label for="data-fundacao">Data de fundação</label>
+            <input asp-for="DataFundacao" type="date" id="data-fundacao" class="form-control" />
+            <span asp-validation-for="DataFundacao" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mt-4 justify-content-center">
+        <div class="col-5">
             <label for="site">Site</label>
             <input asp-for="Site" type="text" id="site" class="form-control" placeholder="www.meusite.com.br" maxlength="45" />
             <span asp-validation-for="Site" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <label for="status">Status</label>
+            <select asp-for="IdStatus" id="status" class="form-control" required>
+                <option value="" selected disabled hidden>Selecionar status</option>
+
+                @foreach (var status in Clinicas.Models.Clinica.Clinica.ListarStatus())
+                {
+                    <option value="@status.Key">@status.Value</option>
+                }
+
+            </select>
+            <span asp-validation-for="IdStatus" class="text-danger"></span>
         </div>
     </div>
 
