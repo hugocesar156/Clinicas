@@ -1,4 +1,5 @@
 ﻿using Clinicas.Models.Shared;
+using Clinicas.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +12,6 @@ namespace Clinicas.Models.Funcionario
     {
         private string _nome;
         private string _cpf;
-        private string _rg;
 
         [Column("idFuncionario"), Key]
         public uint IdFuncionario { get; set; }
@@ -26,19 +26,11 @@ namespace Clinicas.Models.Funcionario
         }
 
         [Column("cpf"),
-        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), CpfValido]
         public string Cpf
         {
             get => _cpf;
             set => _cpf = value.Replace(".", "").Replace("-", "");
-        }
-
-        [Column("rg"),
-        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio)]
-        public string Rg
-        {
-            get => _rg;
-            set => _rg = value.Replace(".", "");
         }
 
         [Column("nascimento"),

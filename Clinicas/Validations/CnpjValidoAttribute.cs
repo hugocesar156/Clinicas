@@ -4,19 +4,14 @@ namespace Clinicas.Validations
 {
     public class CnpjValidoAttribute : ValidationAttribute
     {
-        private readonly string _cnpj;
-
-        public CnpjValidoAttribute(string cnpj) => _cnpj = cnpj;
-
         protected override ValidationResult IsValid(object value, ValidationContext context)
         {
-            var propriedade = context.ObjectType.GetProperty(_cnpj);
+            var propriedade = context.ObjectType.GetProperty("Cnpj");
             var valor = (string)propriedade.GetValue(context.ObjectInstance);
 
-            if (ValidarCnpj(valor))
-                return ValidationResult.Success;
-
-            return new ValidationResult("Informe um CNPJ válido");
+            return ValidarCnpj(valor) ?
+                ValidationResult.Success :
+                new ValidationResult("Informe um CNPJ válido");
         }
 
         private static bool ValidarCnpj(string cnpj)

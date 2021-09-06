@@ -18,7 +18,8 @@ namespace Clinicas.Models.Usuario
 
         [Column("senha"),
         Required(ErrorMessage = ModelError.Geral.CampoObrigatorio),
-        MaxLength(60, ErrorMessage = ModelError.Geral.CampoInvalido)]
+        MinLength(6, ErrorMessage = ModelError.Geral.CampoInvalido),
+        MaxLength(20, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Senha { get; set; }
 
         [NotMapped, Compare("Senha", ErrorMessage = ModelError.Usuario.ConfirmaSenha)]

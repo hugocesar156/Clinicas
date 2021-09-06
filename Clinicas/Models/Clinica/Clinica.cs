@@ -20,8 +20,7 @@ namespace Clinicas.Models.Clinica
 
         [Column("cnpj"),
         Required(ErrorMessage = ModelError.Geral.CampoObrigatorio),
-        StringLength(14, ErrorMessage = ModelError.Geral.CampoInvalido),
-        CnpjValido(nameof(Cnpj))]
+        CnpjValido]
         public string Cnpj
         {
             get => _cnpj;
@@ -56,7 +55,7 @@ namespace Clinicas.Models.Clinica
         public string Site
         {
             get => _site; 
-            set => _site = value.ToUpper().Trim();
+            set => _site = value?.ToUpper().Trim();
         }
 
         [Column("idStatus", TypeName = "TINYINT(4)"), 
