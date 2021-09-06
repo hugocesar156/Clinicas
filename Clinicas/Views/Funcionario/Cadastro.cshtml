@@ -57,14 +57,14 @@
         </div>
         <div class="col-3">
             <label for="cpf">CPF</label>
-            <input asp-for="Cpf" type="text" id="cpf" class="form-control" placeholder="000.000.000-00" required />
+            <input asp-for="Cpf" type="text" id="cpf" class="form-control cpf" placeholder="000.000.000-00" required />
             <span asp-validation-for="Cpf" class="text-danger"></span>
         </div>
     </div>
     <div class="row mt-2 justify-content-center">
         <div class="col-4">
             <label for="nome">RG</label>
-            <input asp-for="Rg" type="text" id="rg" class="form-control" placeholder="00.000.000-0" required />
+            <input asp-for="Rg" type="text" id="rg" class="form-control rg" placeholder="00.000.000-0" required />
             <span asp-validation-for="Rg" class="text-danger"></span>
         </div>
         <div class="col-4">
@@ -86,7 +86,7 @@
     <div class="row mt-2 justify-content-center">
         <div class="col-3">
             <label for="cnpj">CNPJ</label>
-            <input asp-for="Clinica.Cnpj" type="text" id="cnpj" class="form-control" placeholder="00.000.000/0000-00" required />
+            <input asp-for="Clinica.Cnpj" type="text" id="cnpj" class="form-control cnpj" placeholder="00.000.000/0000-00" required />
             <span asp-validation-for="Clinica.Cnpj" class="text-danger"></span>
         </div>
         <div class="col-5">
@@ -96,10 +96,15 @@
         </div>
     </div>
     <div class="row mt-2 justify-content-center">
-        <div class="col-8">
+        <div class="col-5">
             <label for="nome-fantasia">Nome fantasia</label>
             <input asp-for="Clinica.NomeFantasia" type="text" id="nome-fantasia" class="form-control" required />
             <span asp-validation-for="Clinica.NomeFantasia" class="text-danger"></span>
+        </div>
+        <div class="col-3">
+            <label for="data-fundacao">Data de fundação</label>
+            <input asp-for="Clinica.DataFundacao" type="date" id="data-fundacao" class="form-control" required />
+            <span asp-validation-for="Clinica.DataFundacao" class="text-danger"></span>
         </div>
     </div>
 
@@ -121,3 +126,7 @@
         <button class="col-4 btn btn-danger" type="button">Cancelar</button>
     </div>
 </form>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-mask/jquery.mask.min.js"></script>
+<script src="~/js/Shared/global.js"></script>

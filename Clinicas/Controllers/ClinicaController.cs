@@ -32,21 +32,18 @@ namespace Clinicas.Controllers
         [ValidateAntiForgeryToken]
         public PartialViewResult EditarClinica(Clinica clinica)
         {
-            if (!ModelState.IsValid)
-                return PartialView("Edicao", clinica);
-
             clinica.IdClinica = uint.Parse(TempData["idClinica"].ToString());
-       
-            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj, clinica.IdClinica))
-                ViewBag.Notificacao =
-                     Notificacao.GerarNotificacao(Notificacao.Mensagem.CnpjInvalido);
-            else
+
+            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj))
+                ModelState.AddModelError("Cnpj", ModelError.Clinica.CnpjInvalido);
+
+            if (ModelState.IsValid)
             {
                 ViewBag.Notificacao = _clinicaDb.Atualizar(clinica) ?
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.EdicaoRealizada) :
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
             }
-
+        
             TempData["idClinica"] = clinica.IdClinica;
             return PartialView("Edicao", clinica);
         }
@@ -55,14 +52,13 @@ namespace Clinicas.Controllers
         [ValidateAntiForgeryToken]
         public PartialViewResult RegistrarClinica(Clinica clinica)
         {
+            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj))
+                ModelState.AddModelError("Cnpj", ModelError.Clinica.CnpjInvalido);
+
             if (!ModelState.IsValid)
                 return PartialView("Cadastro", clinica);
 
-            if (!_clinicaDb.ValidarCnpj(clinica.Cnpj))
-                ViewBag.Notificacao = 
-                    Notificacao.GerarNotificacao(Notificacao.Mensagem.CnpjInvalido);
-
-            else if (_clinicaDb.Registrar(clinica))
+            if (_clinicaDb.Registrar(clinica))
             {
                 ViewBag.Notificacao =
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.CadastroRealizado);
@@ -70,9 +66,9 @@ namespace Clinicas.Controllers
                 ModelState.Clear();
                 return PartialView("Cadastro", new Clinica());
             }
-            else
-                ViewBag.Notificacao =
-                    Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaCadastro);
+
+            ViewBag.Notificacao =
+                   Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaCadastro);
 
             return PartialView("Cadastro", clinica);
         }

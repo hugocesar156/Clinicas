@@ -1,4 +1,4 @@
-﻿using Clinicas.Global;
+﻿using Clinicas.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,14 +12,13 @@ namespace Clinicas.Models.Funcionario
         private string _nome;
         private string _cpf;
         private string _rg;
-        private DateTime _nascimento;
 
         [Column("idFuncionario"), Key]
         public uint IdFuncionario { get; set; }
 
         [Column("nome"),
-        Required(ErrorMessage = ViewErro.CampoObrigatorio),
-        MaxLength(50, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio),
+        MaxLength(50, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Nome
         {
             get => _nome;
@@ -27,7 +26,7 @@ namespace Clinicas.Models.Funcionario
         }
 
         [Column("cpf"),
-        Required(ErrorMessage = ViewErro.CampoObrigatorio)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio)]
         public string Cpf
         {
             get => _cpf;
@@ -35,26 +34,16 @@ namespace Clinicas.Models.Funcionario
         }
 
         [Column("rg"),
-        Required(ErrorMessage = ViewErro.CampoObrigatorio)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio)]
         public string Rg
         {
             get => _rg;
             set => _rg = value.Replace(".", "");
         }
 
-        [Column("nascimento", TypeName = "DATETIME"),
-        Required(ErrorMessage = ViewErro.CampoObrigatorio)]
-        public DateTime Nascimento 
-        {
-            get => _nascimento;
-            set 
-            {
-                var data = DateTime.Now;
-                
-                if (value <= new DateTime(data.Year - 18, data.Month, data.Day))
-                    _nascimento = value;
-            }
-        }
+        [Column("nascimento"),
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio)]
+        public DateTime? Nascimento { get; set; } = null;
 
         [ForeignKey("idUsuario")]
         public uint IdUsuario { get; set; }

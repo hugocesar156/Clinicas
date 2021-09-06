@@ -9,48 +9,23 @@ namespace Clinicas.Models.Shared
         public string Titulo { get; set; }
         public string Descricao { get; set; }
 
-        public enum Tipo
+        public enum Mensagem
+        {
+            CadastroRealizado,
+            FalhaCadastro,
+            EdicaoRealizada,
+            FalhaEdicao,
+            RegistroRemovido,
+            FalhaRemocao
+        }
+
+        private enum Tipo
         {
             Sucesso,
             Informacao,
             Aviso,
             Falha
         }
-
-        public enum Entidade
-        {
-            Plataforma,
-            Clinica
-        }
-
-        public enum Mensagem 
-        {
-            //Plataforma
-            CadastroRealizado,
-            FalhaCadastro,
-            EdicaoRealizada,
-            FalhaEdicao,
-            RegistroRemovido,
-            FalhaRemocao,
-
-            //Clínica
-            CnpjInvalido
-        }
-
-
-        private static readonly Dictionary<Mensagem, (Tipo, string)> ConteudoMensagem = new Dictionary<Mensagem, (Tipo, string)> 
-        {
-            //Plataforma
-            {Mensagem.CadastroRealizado, (Tipo.Sucesso, "Cadastro realizado com sucesso.")},
-            {Mensagem.FalhaCadastro, (Tipo.Falha, "Ocorreu uma falha durante o cadastro, tente novamenete.")},
-            {Mensagem.EdicaoRealizada, (Tipo.Sucesso, "Registro editado com sucesso.")},
-            {Mensagem.FalhaEdicao, (Tipo.Falha, "Ocorreu uma falha ao editar registro, tente novamenete.")},
-            {Mensagem.RegistroRemovido, (Tipo.Sucesso, "Registro removido com sucesso.")},
-            {Mensagem.FalhaRemocao, (Tipo.Falha, "Ocorreu uma falha ao remover registro, tente novamenete.")},
-
-            //Clínica
-            {Mensagem.CnpjInvalido, (Tipo.Falha, "CNPJ informado já registrado no sistema.")}
-        };
 
         public static Notificacao GerarNotificacao(Mensagem indice)
         {
@@ -78,5 +53,15 @@ namespace Clinicas.Models.Shared
                     return new Notificacao();
             }
         }
+
+        private static readonly Dictionary<Mensagem, (Tipo, string)> ConteudoMensagem = new Dictionary<Mensagem, (Tipo, string)>
+        {
+            {Mensagem.CadastroRealizado, (Tipo.Sucesso, "Cadastro realizado com sucesso.")},
+            {Mensagem.FalhaCadastro, (Tipo.Falha, "Ocorreu uma falha durante o cadastro, tente novamenete.")},
+            {Mensagem.EdicaoRealizada, (Tipo.Sucesso, "Registro editado com sucesso.")},
+            {Mensagem.FalhaEdicao, (Tipo.Falha, "Ocorreu uma falha ao editar registro, tente novamenete.")},
+            {Mensagem.RegistroRemovido, (Tipo.Sucesso, "Registro removido com sucesso.")},
+            {Mensagem.FalhaRemocao, (Tipo.Falha, "Ocorreu uma falha ao remover registro, tente novamenete.")}
+        };
     }
 }

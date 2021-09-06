@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
-using Clinicas.Global;
 
 namespace Clinicas.Models.Shared
 {
@@ -20,8 +19,8 @@ namespace Clinicas.Models.Shared
         public uint IdEndereco { get; set; }
 
         [Column("cep"),
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        StringLength(8, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        StringLength(8, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Cep 
         { 
             get => _cep; 
@@ -29,8 +28,8 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("logradouro"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        MaxLength(45, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        MaxLength(45, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Logradouro
         {
             get => _logradouro;
@@ -38,8 +37,8 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("numero"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        MaxLength(5, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        MaxLength(5, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Numero
         {
             get => _numero;
@@ -47,8 +46,8 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("bairro"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        MaxLength(45, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        MaxLength(45, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Bairro
         {
             get => _bairro;
@@ -56,8 +55,8 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("cidade"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        MaxLength(45, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        MaxLength(45, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Cidade
         {
             get => _cidade;
@@ -65,8 +64,8 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("uf"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio), 
-        StringLength(2, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio), 
+        StringLength(2, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Uf
         {
             get => _uf;
@@ -74,7 +73,7 @@ namespace Clinicas.Models.Shared
         }
 
         [Column("complemento"), 
-        MaxLength(45, ErrorMessage = ViewErro.CampoInvalido)]
+        MaxLength(45, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Complemento
         {
             get => _complemento;

@@ -1,5 +1,4 @@
-﻿using Clinicas.Global;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.RegularExpressions;
 
@@ -13,9 +12,9 @@ namespace Clinicas.Models.Shared
         public uint IdContato { get; set; }
 
         [Column("numero"), 
-        Required(ErrorMessage = ViewErro.CampoObrigatorio),
-        MinLength(10, ErrorMessage = ViewErro.CampoInvalido), 
-        MaxLength(11, ErrorMessage = ViewErro.CampoInvalido)]
+        Required(ErrorMessage = ModelError.Geral.CampoObrigatorio),
+        MinLength(10, ErrorMessage = ModelError.Geral.CampoInvalido), 
+        MaxLength(11, ErrorMessage = ModelError.Geral.CampoInvalido)]
         public string Numero
         { 
             get => _numero;
