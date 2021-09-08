@@ -1,5 +1,6 @@
 ﻿using Clinicas.Data;
 using Clinicas.Models.Funcionario;
+using Microsoft.EntityFrameworkCore;
 using System;
 using X.PagedList;
 
@@ -29,9 +30,8 @@ namespace Clinicas.Repositories
         {
             try
             {
-                var idPerfil = 0;
-
-                return null;
+                return _banco.Funcionario.Include(f => f.Clinica)
+                    .ToPagedList(pagina, 10);
             }
             catch (Exception erro)
             {

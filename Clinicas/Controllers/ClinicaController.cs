@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Clinicas.Authorizations.Clinica;
 using Clinicas.Models.Clinica;
-using Clinicas.Repositories;
 using Clinicas.Models.Shared;
-using System;
+using Clinicas.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Clinicas.Controllers
 {
@@ -18,7 +18,7 @@ namespace Clinicas.Controllers
         [HttpGet]
         public PartialViewResult AtualizarLista(int pagina, string pesquisa = "")
         {
-            return PartialView("Tabela", 
+            return PartialView("Tabela",
                 _clinicaDb.Listar(pagina, pesquisa != null ? pesquisa?.ToUpper().Trim() : string.Empty));
         }
 
@@ -43,7 +43,7 @@ namespace Clinicas.Controllers
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.EdicaoRealizada) :
                     Notificacao.GerarNotificacao(Notificacao.Mensagem.FalhaEdicao);
             }
-        
+
             TempData["idClinica"] = clinica.IdClinica;
             return PartialView("Edicao", clinica);
         }
@@ -84,6 +84,7 @@ namespace Clinicas.Controllers
             return PartialView("Lista", _clinicaDb.Listar());
         }
 
+        [ClinicaAutorizacao.Cadastro]
         public IActionResult Cadastro()
         {
             return View(new Clinica());

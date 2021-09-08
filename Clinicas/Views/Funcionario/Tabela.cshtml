@@ -1,0 +1,146 @@
+﻿@model IPagedList<Clinicas.Models.Funcionario.Funcionario>
+
+@if (ViewBag.Notificacao != null)
+{
+    @await Html.PartialAsync("Notificacao");
+}
+
+<div class="row justify-content-center">
+    <div class="col text-center">
+        <div id="area-carregamento" style="display: none;">
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center mt-2">
+    <div class="col-10" style="overflow: auto; height: @(Model.Count >= 5 ? "500px" : "250px");">
+        <table data-spy="scroll" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">CPF</th>
+                    <th scope="col">Clínica</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var funcionario in Model)
+                {
+                    <tr>
+                        <td class="text-capitalize">@funcionario.Nome.ToLower()</td>
+                        <td class="cpf">@funcionario.Cpf</td>
+                        <td class="text-capitalize">@funcionario.Clinica.RazaoSocial.ToLower()</td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" title="Detalhes do registro"
+                               href="@Url.Action("Detalhamento", "Funcionario", new { idFuncionario = funcionario.IdFuncionario })"
+                               data-ajax="true" data-ajax-method="get" data-ajax-update="#area-modal-detalhamento"
+                               data-ajax-complete="$('#modal-detalhamento').modal('show')">
+                                <i class="bi bi-card-heading"></i>
+                            </a>
+                            <a class="btn btn-sm btn-outline-primary" title="Editar registro"
+                               href="@Url.Action("Edicao", "Funcionario", new { idFuncionario = funcionario.IdFuncionario })">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <button class="btn btn-sm btn-outline-danger" title="Remover registro"
+                                    data-bs-toggle="modal" data-bs-target="#modal-remocao"
+                                    onclick="$('#id-clinica-remocao').val('@funcionario.IdFuncionario');
+                                    $('#confirmacao').html('@funcionario.Nome.ToLower()');">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-3">
+    <div class="col-9">
+        <label class="form-control-sm">
+            Exibindo @Model.Count de @Model.TotalItemCount registro(s)
+        </label>
+    </div>
+    <div class="col-1">
+        <label class="form-control-sm">
+            Página @Model.PageNumber
+        </label>
+    </div>
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <div class="row justify-content-center mt-3">
+        <div class="col-10">
+            <nav aria-label="..." class="float-end">
+                <ul class="pagination">
+                    <li class="page-item" title="Primeira página">
+                        <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                            <button class="page-link"><i class="bi bi-arrow-left"></i></button>
+                            <input type="hidden" name="pagina" value="1" />
+                        </form>
+                    </li>
+
+                    @if (Model.PageNumber > 1)
+                    {
+                        <li class="page-item" title="Página anterior">
+                            <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                                <button class="page-link"><i class="bi bi-arrow-bar-left"></i></button>
+                                <input type="hidden" name="pagina" value="@(Model.PageNumber - 1)" />
+                            </form>
+                        </li>
+                    }
+
+                    @if (Model.PageNumber < Model.PageCount)
+                    {
+                        <li class="page-item" title="Próxima página">
+                            <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                                <button class="page-link"><i class="bi bi-arrow-bar-right"></i></button>
+                                <input type="hidden" name="pagina" value="@(Model.PageNumber + 1)" />
+                            </form>
+                        </li>
+                    }
+
+                    <li class="page-item" title="Última página">
+                        <form asp-action="AtualizarLista" data-ajax="true" data-ajax-method="get" data-ajax-update="#area-tabela">
+                            <button class="page-link"><i class="bi bi-arrow-right"></i></button>
+                            <input type="hidden" name="pagina" value="@Model.PageCount" />
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+}
+
+@*<div id="area-modal-detalhamento">
+    @await Html.PartialAsync("Detalhamento", new Clinicas.Models.Funcionario.Funcionario())
+</div>*@
+
+<div class="modal fade" id="modal-remocao" tabindex="-1" aria-labelledby="remocao" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remover registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="RemoverFuncionario" data-ajax="true" data-ajax-method="post" data-ajax-update="#div-container"
+                  data-ajax-begin="$('#area-submit').remove()" data-ajax-loading="#area-carregamento">
+                <input type="hidden" id="id-clinica-remocao" name="idClinica" />
+                <div class="modal-body">
+                    Tem certeza que deseja remover o seguinte registro?
+                    <strong id="confirmacao"></strong>
+                </div>
+                <div class="modal-footer">
+                    <div id="area-submit">
+                        <button type="submit" class="btn btn-danger" data-bs-dismiss="modal" onclick="$('#link-carregamento').click()">Confirmar</button>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<a id="link-carregamento" href="#row-titulo" class="d-none"></a>

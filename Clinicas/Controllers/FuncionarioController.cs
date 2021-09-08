@@ -67,5 +67,11 @@ namespace Clinicas.Controllers
 
             return View(funcionario);
         }
+
+        [HttpGet]
+        public IActionResult Lista()
+        {
+            return View(_funcionarioDb.Listar());
+        }
     }
 }
